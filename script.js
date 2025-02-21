@@ -18,7 +18,15 @@ window.addEventListener("mousemove",function (event) {
     console.log(mouse);
     
 })
+window.addEventListener("touchmove", function(event) {
+    event.preventDefault(); // Prevent scrolling
+    let touchX = event.touches[0].clientX;
+    let touchY = event.touches[0].clientY;
 
+    // Apply smoothing using interpolation
+    mouse.x += (touchX - mouse.x) * 0.1;
+    mouse.y += (touchY - mouse.y) * 0.1;
+});
 function Circle(x,y,dx,dy,radius,color1,color2){
     this.x=x;
     this.y=y;
