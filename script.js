@@ -18,15 +18,24 @@ window.addEventListener("mousemove",function (event) {
     console.log(mouse);
     
 })
-window.addEventListener("touchmove", function(event) {
-    event.preventDefault(); // Prevent scrolling
-    let touchX = event.touches[0].clientX;
-    let touchY = event.touches[0].clientY;
+let isTouching = false;
 
-    // Apply smoothing using interpolation
-    mouse.x += (touchX - mouse.x) * 0.1;
-    mouse.y += (touchY - mouse.y) * 0.1;
+window.addEventListener("touchmove", function(event) {
+    event.preventDefault();
+    isTouching = true;
+    mouse.x = event.touches[0].clientX;
+    mouse.y = event.touches[0].clientY;
 });
+
+function smoothTouchUpdate() {
+    if (isTouching) {
+        mouse.x += (mouse.x - mouse.x) * 0.1;
+        mouse.y += (mouse.y - mouse.y) * 0.1;
+    }
+    requestAnimationFrame(smoothTouchUpdate);
+}
+smoothTouchUpdate();
+
 function Circle(x,y,dx,dy,radius,color1,color2){
     this.x=x;
     this.y=y;
